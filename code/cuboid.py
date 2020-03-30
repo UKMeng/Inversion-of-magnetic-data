@@ -31,40 +31,49 @@ def deltaT(z, hx = 0, hy = 0):
     return hx * sp.cos(I) * sp.cos(D) + hy * sp.cos(I) * sp.sin(D) + z * sp.sin(I)
 
 def hx(x0, y0, Mx, My, Mz, x1, x2, y1, y2, z1, z2):
+    '''
     x, y, z = sp.symbols('x y z')
     r = sp.sqrt((x - x0) ** 2 + (y - y0) ** 2 + z ** 2)
     f = const * (Mx * sp.atan(((x - x0) * (y - y0))/((x - x0)**2 + r * z + z ** 2)) + My * sp.log(r + z) + Mz * sp.log((r + (y - y0))))
     f1 = f.subs(z, z1) - f.subs(z, z2)
     f2 = f1.subs(y, y1) - f1.subs(y, y2)
     f3 = f2.subs(x, x1) - f2.subs(x, x2)
+    '''
+    f = const * (Mx*sp.atan((-x0 + x1)*(-y0 + y1)/(z1**2 + z1*sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y1)**2) + (-x0 + x1)**2)) - Mx*sp.atan((-x0 + x1)*(-y0 + y1)/(z2**2 + z2*sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y1)**2) + (-x0 + x1)**2)) - Mx*sp.atan((-x0 + x1)*(-y0 + y2)/(z1**2 + z1*sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y2)**2) + (-x0 + x1)**2)) + Mx*sp.atan((-x0 + x1)*(-y0 + y2)/(z2**2 + z2*sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y2)**2) + (-x0 + x1)**2)) - Mx*sp.atan((-x0 + x2)*(-y0 + y1)/(z1**2 + z1*sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y1)**2) + (-x0 + x2)**2)) + Mx*sp.atan((-x0 + x2)*(-y0 + y1)/(z2**2 + z2*sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y1)**2) + (-x0 + x2)**2)) + Mx*sp.atan((-x0 + x2)*(-y0 + y2)/(z1**2 + z1*sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y2)**2) + (-x0 + x2)**2)) - Mx*sp.atan((-x0 + x2)*(-y0 + y2)/(z2**2 + z2*sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y2)**2) + (-x0 + x2)**2)) + My*sp.log(z1 + sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y1)**2)) - My*sp.log(z1 + sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y2)**2)) - My*sp.log(z1 + sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y1)**2)) + My*sp.log(z1 + sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y2)**2)) - My*sp.log(z2 + sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y1)**2)) + My*sp.log(z2 + sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y2)**2)) + My*sp.log(z2 + sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y1)**2)) - My*sp.log(z2 + sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y2)**2)) + Mz*sp.log(-y0 + y1 + sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y1)**2)) - Mz*sp.log(-y0 + y1 + sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y1)**2)) - Mz*sp.log(-y0 + y1 + sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y1)**2)) + Mz*sp.log(-y0 + y1 + sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y1)**2)) - Mz*sp.log(-y0 + y2 + sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y2)**2)) + Mz*sp.log(-y0 + y2 + sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y2)**2)) + Mz*sp.log(-y0 + y2 + sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y2)**2)) - Mz*sp.log(-y0 + y2 + sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y2)**2)))
     #print(x0, y0, f3)
-    return f3
+    return f
 
 def hy(x0, y0, Mx, My, Mz, x1, x2, y1, y2, z1, z2):
+    '''
     x, y, z = sp.symbols('x y z')
     r = sp.sqrt((x - x0) ** 2 + (y - y0) ** 2 + z ** 2)
     f = const * (My * sp.atan(((x - x0) * (y - y0))/((y - y0)**2 + r * z + z ** 2)) + Mx * sp.log(r + z) + Mz * sp.log((r + (x - x0))))
     f1 = f.subs(z, z1) - f.subs(z, z2)
     f2 = f1.subs(y, y1) - f1.subs(y, y2)
     f3 = f2.subs(x, x1) - f2.subs(x, x2)
+    '''
+    f = const * (Mx*sp.log(z1 + sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y1)**2)) - Mx*sp.log(z1 + sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y2)**2)) - Mx*sp.log(z1 + sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y1)**2)) + Mx*sp.log(z1 + sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y2)**2)) - Mx*sp.log(z2 + sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y1)**2)) + Mx*sp.log(z2 + sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y2)**2)) + Mx*sp.log(z2 + sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y1)**2)) - Mx*sp.log(z2 + sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y2)**2)) + My*sp.atan((-x0 + x1)*(-y0 + y1)/(z1**2 + z1*sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y1)**2) + (-y0 + y1)**2)) - My*sp.atan((-x0 + x1)*(-y0 + y1)/(z2**2 + z2*sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y1)**2) + (-y0 + y1)**2)) - My*sp.atan((-x0 + x1)*(-y0 + y2)/(z1**2 + z1*sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y2)**2) + (-y0 + y2)**2)) + My*sp.atan((-x0 + x1)*(-y0 + y2)/(z2**2 + z2*sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y2)**2) + (-y0 + y2)**2)) - My*sp.atan((-x0 + x2)*(-y0 + y1)/(z1**2 + z1*sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y1)**2) + (-y0 + y1)**2)) + My*sp.atan((-x0 + x2)*(-y0 + y1)/(z2**2 + z2*sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y1)**2) + (-y0 + y1)**2)) + My*sp.atan((-x0 + x2)*(-y0 + y2)/(z1**2 + z1*sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y2)**2) + (-y0 + y2)**2)) - My*sp.atan((-x0 + x2)*(-y0 + y2)/(z2**2 + z2*sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y2)**2) + (-y0 + y2)**2)) + Mz*sp.log(-x0 + x1 + sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y1)**2)) - Mz*sp.log(-x0 + x1 + sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y2)**2)) - Mz*sp.log(-x0 + x1 + sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y1)**2)) + Mz*sp.log(-x0 + x1 + sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y2)**2)) - Mz*sp.log(-x0 + x2 + sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y1)**2)) + Mz*sp.log(-x0 + x2 + sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y2)**2)) + Mz*sp.log(-x0 + x2 + sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y1)**2)) - Mz*sp.log(-x0 + x2 + sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y2)**2)))
     #print(x0, y0, f3)
-    return f3
+    return f
 
 def z(x0, y0, Mx, My, Mz, x1, x2, y1, y2, z1, z2):
+    '''
     x, y, z = sp.symbols('x y z')
     r = sp.sqrt((x - x0) ** 2 + (y - y0) ** 2 + z ** 2)
     f = const * (-Mz * sp.atan(((x - x0) * (y - y0))/(r * z)) + Mx * sp.log(r + (y - y0)) + My * sp.log(r + (x - x0)))
     f1 = f.subs(z, z1) - f.subs(z, z2)
     f2 = f1.subs(y, y1) - f1.subs(y, y2)
     f3 = f2.subs(x, x1) - f2.subs(x, x2)
+    '''
+    f = const * (Mx*sp.log(-y0 + y1 + sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y1)**2)) - Mx*sp.log(-y0 + y1 + sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y1)**2)) - Mx*sp.log(-y0 + y1 + sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y1)**2)) + Mx*sp.log(-y0 + y1 + sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y1)**2)) - Mx*sp.log(-y0 + y2 + sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y2)**2)) + Mx*sp.log(-y0 + y2 + sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y2)**2)) + Mx*sp.log(-y0 + y2 + sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y2)**2)) - Mx*sp.log(-y0 + y2 + sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y2)**2)) + My*sp.log(-x0 + x1 + sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y1)**2)) - My*sp.log(-x0 + x1 + sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y2)**2)) - My*sp.log(-x0 + x1 + sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y1)**2)) + My*sp.log(-x0 + x1 + sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y2)**2)) - My*sp.log(-x0 + x2 + sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y1)**2)) + My*sp.log(-x0 + x2 + sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y2)**2)) + My*sp.log(-x0 + x2 + sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y1)**2)) - My*sp.log(-x0 + x2 + sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y2)**2)) - Mz*sp.atan((-x0 + x1)*(-y0 + y1)/(z1*sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y1)**2))) + Mz*sp.atan((-x0 + x1)*(-y0 + y2)/(z1*sp.sqrt(z1**2 + (-x0 + x1)**2 + (-y0 + y2)**2))) + Mz*sp.atan((-x0 + x2)*(-y0 + y1)/(z1*sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y1)**2))) - Mz*sp.atan((-x0 + x2)*(-y0 + y2)/(z1*sp.sqrt(z1**2 + (-x0 + x2)**2 + (-y0 + y2)**2))) + Mz*sp.atan((-x0 + x1)*(-y0 + y1)/(z2*sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y1)**2))) - Mz*sp.atan((-x0 + x1)*(-y0 + y2)/(z2*sp.sqrt(z2**2 + (-x0 + x1)**2 + (-y0 + y2)**2))) - Mz*sp.atan((-x0 + x2)*(-y0 + y1)/(z2*sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y1)**2))) + Mz*sp.atan((-x0 + x2)*(-y0 + y2)/(z2*sp.sqrt(z2**2 + (-x0 + x2)**2 + (-y0 + y2)**2))))
     #print(x0, y0, f3)
-    return f3
+    return f
 '''
 def hy(x, y, x0, y0, z0, Mx, My, Mz, r):
-    return const * (-My * math.atan(((x0 - x) * (y0 - y))/((y0 - y)**2 + r * z0 + z0 ** 2)) + Mx * math.log(r + z0) + Mz * math.log((r + (x0 - x))))
+    return const * (-My * math.sp.atan(((x0 - x) * (y0 - y))/((y0 - y)**2 + r * z0 + z0 ** 2)) + Mx * math.sp.log(r + z0) + Mz * math.sp.log((r + (x0 - x))))
 
 def z(x, y, x0, y0, z0, Mx, My, Mz, r):
-    return const * (Mz * math.atan(((x0 - x) * (y0 - y))/(r * z0)) + Mx * math.log((r + (y0 - y))) + My * math.log((r + (x0 - x))))
+    return const * (Mz * math.sp.atan(((x0 - x) * (y0 - y))/(r * z0)) + Mx * math.sp.log((r + (y0 - y))) + My * math.sp.log((r + (x0 - x))))
 '''
 
 def cal(x, y, m):
