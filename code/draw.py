@@ -2,12 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def contour(X, Y, Z):
-    cset = plt.contourf(X,Y,Z,6,cmap=plt.get_cmap('rainbow')) 
+    #cset = plt.contourf(X, Y, Z) 
     #or cmap='hot'
     #画出8条线，并将颜色设置为黑色
-    contour = plt.contour(X,Y,Z,8,colors='k')
+    cset = plt.contourf(X, Y, Z, 15)
+    #contour = plt.contour(X, Y, Z, 15, colors= 'k')
     #等高线上标明z（即高度）的值，字体大小是10，颜色分别是黑色和红色
-    plt.clabel(contour,fontsize=10,colors='k')
+    #plt.clabel(contour, fontsize=10, colors='k')
     #去掉坐标轴刻度
     #plt.xticks(())  
     #plt.yticks(())  
