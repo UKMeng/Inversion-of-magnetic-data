@@ -2,7 +2,6 @@ import math
 import numpy as np
 import sympy as sp
 import time
-import progressbar
 import multiprocessing as mp
 # 全局参数
 myu = 4 * math.pi * 1e-7
